@@ -32,4 +32,82 @@ nav a:hover{color:var(--accent)}
 .btn-primary:hover{background:var(--accent-light);transform:translateY(-1px)}
 .btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
-section{padding:80
+section{padding:80px 0}
+.section-title{font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;font-weight:600}
+.section-heading{font-size:2rem;color:var(--white);margin-bottom:40px}
+#about .about-text{max-width:800px;font-size:1.05rem}
+#about .about-text p{margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:24px;transition:all .2s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card-icon{font-size:1.5rem;margin-bottom:12px}
+.card h3{font-size:1rem;color:var(--white);margin-bottom:6px}
+.card p{font-size:.9rem;color:var(--text-dim)}
+.exp-list{list-style:none;max-width:800px}
+.exp-list li{padding:14px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px}
+.exp-list li:last-child{border-bottom:none}
+.exp-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.exp-list li span{color:var(--text);font-size:1.05rem}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:28px;transition:all .2s;position:relative}
+.service-card:hover{border-color:var(--accent)}
+.service-num{font-size:2rem;font-weight:800;color:var(--accent);opacity:.3;position:absolute;top:16px;right:20px}
+.service-card h3{font-size:1.05rem;color:var(--white);margin-bottom:8px}
+.service-card p{font-size:.95rem;color:var(--text-dim)}
+#contact{background:var(--bg-light)}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px}
+.contact-item{text-align:center}
+.contact-item .icon{font-size:1.8rem;margin-bottom:10px}
+.contact-item h4{color:var(--white);font-size:.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.contact-item a,.contact-item p{color:var(--text-dim);text-decoration:none;font-size:1rem;transition:color .2s}
+.contact-item a:hover{color:var(--accent)}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 0;text-align:center}
+footer p{color:var(--text-dim);font-size:.85rem}
+footer p span{color:var(--accent)}
+@media(max-width:600px){.hero h1{font-size:2.2rem}.hero .title{font-size:1.05rem}.section-heading{font-size:1.6rem}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <div class="brand">J.E. Caverly <span>Consulting</span></div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-tag">Emergency Management &amp; Public Safety</div>
+    <h1>Jonathan Caverly</h1>
+    <p class="title">Emergency Management &amp; Public Safety Consultant</p>
+    <p class="creds">EMT &middot; Emergency Manager &middot; Fire Commissioner &middot; Project &amp; Systems Builder</p>
+    <p class="bio">Emergency management and public safety professional based in Pierce County, Washington. My background spans EMS, fire service leadership, healthcare emergency management, public administration, technology, and community service. I focus on practical preparedness, clear documentation, resilient systems, and helping organizations solve real-world operational problems.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">Get in Touch</a>
+      <a href="#services" class="btn btn-outline">View Services</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="section-title">About</div>
+    <h2 class="section-heading">Professional Background</h2>
+    <div class="about-text">
+      <p>I am an emergency management and public safety professional based in Pierce County, Washington. My background includes EMS, fire service leadership, healthcare emergency management, public administration, technology, project coordination, and community service.</p>
+      <p>I focus on practical preparedness, clear documentation, resilient systems, and helping organizations solve real-world operational problems. My work bridges emergency management, public safety, training, planning, technology, and organizational leadership.</p>
+      <p>Whether developing continuity plans, coordinating incident response, delivering safety education, or building technology systems that support field operations, I bring a practical, service-oriented approach to every project.</p>
+    </div>
+  </div>
+</section>
+
+<section id="expertise">
+  <div class="container">
+    <div class
+
