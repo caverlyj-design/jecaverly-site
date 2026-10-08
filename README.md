@@ -20,6 +20,9 @@ Routine page content is Markdown in `src/pages/`. Edit the relevant file in GitH
 
 ## Launch checklist
 
+- Create the forwarding alias `contact@jecaverly.com` to John's private mailbox and test delivery and replies before launch. Publish only the alias, never the private destination. The alias can be replaced or disabled if spam becomes a problem.
+- At go-live, add public phone `253-302-7144` (`tel:+12533027144`) and email `contact@jecaverly.com` (`mailto:contact@jecaverly.com`) to the Contact Me page, then verify both links on mobile. Keep these details off the development preview until launch.
+
 - Verify biography, titles, dates, credentials, affiliations, consulting availability, and contact email with John.
 - Approve final colors, typography, and authentic photographs.
 - Review keyboard access, contrast, mobile layouts, text enlargement, links, and contact behavior. This foundation is not an accessibility certification.
@@ -31,3 +34,18 @@ Routine page content is Markdown in `src/pages/`. Edit the relevant file in GitH
 - Configure the unlisted SharePoint portal only after its destination is verified; leave it out of public navigation and sitemaps.
 
 No CMS, analytics, forms, or SharePoint redirect is configured yet. The site currently collects no visitor submissions. No paid services are required for its static foundation.
+
+## Blog publishing
+
+The blog at `/blog/` lists Markdown posts automatically, newest first. John can supply a post in ChatGPT for publication, or create a file in `src/pages/blog/` through GitHub. Use a descriptive filename, such as `preparedness-starts-at-home.md`, and this frontmatter:
+
+```yaml
+---
+layout: ../../layouts/BlogPost.astro
+title: Your post title
+description: A short summary
+date: '2026-10-08'
+---
+```
+
+Write the post below the frontmatter and commit to publish. Keep unpublished drafts outside `src/pages/`; a `draft` flag only hides a post from the listing and does not make its URL private. No posts or comments have been fabricated, and no visitor login is required.

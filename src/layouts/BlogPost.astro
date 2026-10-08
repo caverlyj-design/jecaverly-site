@@ -1,0 +1,9 @@
+---
+import Layout from './Layout.astro';
+const { title, description, date } = Astro.props.frontmatter;
+---
+<Layout title={title} description={description}>
+  <p class="eyebrow"><time datetime={date}>{date}</time></p>
+  <slot />
+  <p><a href="/blog/">← Back to the blog</a></p>
+</Layout>

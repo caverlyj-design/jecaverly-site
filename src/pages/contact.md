@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/Layout.astro
-title: Contact
+title: Contact Me
 ---
-A verified professional contact method will be added before launch.
+Contact details will be available when the site launches.
 
 Please do not submit medical information, confidential organizational records, or other sensitive information through this website.

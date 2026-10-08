@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+const posts = Object.values(import.meta.glob('./*.md', { eager: true })).filter((post: any) => !post.frontmatter.draft).sort((a: any, b: any) => String(b.frontmatter.date).localeCompare(String(a.frontmatter.date))) as any[];
+---
+<Layout title="Blog" description="Notes and perspectives from John Caverly on preparedness, public service, leadership, history, and technology.">
+  <p>Notes and perspectives on preparedness, public service, leadership, history, and technology.</p>
+  {posts.length ? <div class="blog-list">{posts.map(post => <article><h2><a href={post.url}>{post.frontmatter.title}</a></h2><p class="eyebrow">{post.frontmatter.date}</p><p>{post.frontmatter.description}</p></article>)}</div> : <p>My first post is coming soon.</p>}
+</Layout>
