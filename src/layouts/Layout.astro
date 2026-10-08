@@ -1,0 +1,33 @@
+---
+import '../styles/global.css';
+const { title = 'John Caverly', description = 'Service, preparedness, leadership, and practical problem-solving.', home = false } = Astro.props;
+const links = [['About','/about/'],['Public Service','/public-service/'],['Consulting','/consulting/'],['Projects','/projects/'],['Freemasonry','/freemasonry/'],['Writing','/writing/'],['Contact','/contact/']];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | JECaverly.com</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="preview">Development preview · Content and design under review</div>
+    <header class="container">
+      <a class="brand" href="/">J.E. Caverly<span>Service. Preparedness. Leadership.</span></a>
+      <nav aria-label="Main navigation">
+        {links.map(([label,href]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>)}
+      </nav>
+    </header>
+    <main id="main" class:list={['container', { article: !home }]} tabindex="-1">
+      {!home && <div class="page-heading"><p class="eyebrow">JECaverly.com</p><h1>{title}</h1></div>}
+      <slot />
+    </main>
+    <footer class="container">
+      <p>© {new Date().getFullYear()} Jonathan Everett Caverly</p>
+      <p>This is a personal website. Views expressed are my own and do not represent any organization with which I am affiliated.</p>
+    </footer>
+  </body>
+</html>
