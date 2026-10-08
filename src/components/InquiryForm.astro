@@ -1,0 +1,36 @@
+---
+const { type } = Astro.props;
+const training = type === 'training';
+---
+<section id="request" class="inquiry-section" aria-labelledby="request-heading">
+  <h2 id="request-heading">{training ? 'Request Training' : 'Request a Consultation'}</h2>
+  <p>{training ? 'Tell me what your group needs to learn and when you hope to train.' : 'Tell me about your organization and the planning assistance you need.'} This is an inquiry, not a booking or service agreement.</p>
+  <form class="inquiry-form" action="/api/inquiries" method="post" data-inquiry>
+    <input type="hidden" name="type" value={type} />
+    <div class="form-grid">
+      <label>Name <span>(required)</span><input name="name" autocomplete="name" maxlength="120" required /></label>
+      <label>Email <span>(required)</span><input name="email" type="email" autocomplete="email" maxlength="254" required /></label>
+      <label>Organization {training ? <span>(optional)</span> : <span>(required)</span>}<input name="organization" autocomplete="organization" maxlength="160" required={!training} /></label>
+      <label>Phone <span>(optional)</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
+      {training ? <>
+        <label>Desired course <span>(required)</span><select name="course" required><option value="">Choose a course or topic</option><option>CPR &amp; AED</option><option>First Aid</option><option>First Aid / CPR / AED</option><option>Basic Life Support (BLS)</option><option>First Aid for Severe Trauma (FAST)</option><option>Emergency preparedness</option><option>Workplace safety &amp; emergency response</option><option>Other / help me choose</option></select></label>
+        <label>Number of participants <span>(required)</span><input name="participants" type="number" min="1" max="10000" step="1" required /></label>
+        <label>Training location <span>(required)</span><input name="location" maxlength="200" placeholder="City and venue, or location assistance needed" required /></label>
+        <label>Preferred dates <span>(required)</span><input name="timeframe" maxlength="200" placeholder="Dates or a general timeframe" required /></label>
+        <label>Is certification required? <span>(required)</span><select name="certification" required><option value="">Choose an answer</option><option>Yes</option><option>No</option><option>Not sure</option></select></label>
+      </> : <>
+        <label class="full">Planning needs <span>(required)</span><textarea name="needs" rows="3" maxlength="2000" required></textarea></label>
+        <label class="full">Project scope <span>(required)</span><textarea name="scope" rows="3" maxlength="2000" placeholder="Sites, functions, existing plans, and desired outcomes" required></textarea></label>
+        <label>Project location <span>(required)</span><input name="location" maxlength="200" placeholder="City or service area" required /></label>
+        <label>Anticipated timeframe <span>(required)</span><input name="timeframe" maxlength="200" required /></label>
+      </>}
+      <label class="full">Additional details <span>(optional)</span><textarea name="details" rows="4" maxlength="3000"></textarea></label>
+    </div>
+    <div class="honeypot" aria-hidden="true"><label>Leave this field blank<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+    <p class="form-note">Your inquiry is stored privately with Cloudflare and used to respond to your request. Do not include patient information, confidential records, or sensitive security details. This form is not monitored for emergencies; call 911 for an emergency.</p>
+    <button class="button" type="submit">{training ? 'Send Training Inquiry' : 'Send Consultation Inquiry'}</button>
+    <p class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
+    <noscript><p>You can submit this form without JavaScript. A receipt appears only after your inquiry has been stored.</p></noscript>
+  </form>
+</section>
+<script is:inline src="/inquiry-form.js" defer></script>

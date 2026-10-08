@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 const { title = 'John Caverly', description = 'Service, preparedness, leadership, and practical problem-solving.', home = false } = { ...Astro.props.frontmatter, ...Astro.props };
-const links = [['About','/about/'],['Public Service','/public-service/'],['Consulting','/consulting/'],['Projects','/projects/'],['Freemasonry','/freemasonry/'],['Blog','/blog/'],['Writing','/writing/'],['Contact','/contact/']];
+const links = [['About','/about/'],['Public Service','/public-service/'],['Projects','/projects/'],['Freemasonry','/freemasonry/'],['Blog','/blog/'],['Writing','/writing/'],['Contact','/contact/']];
 ---
 <!doctype html>
 <html lang="en">
@@ -18,7 +18,9 @@ const links = [['About','/about/'],['Public Service','/public-service/'],['Consu
     <header class="container">
       <a class="brand" href="/">J.E. Caverly<span>Service. Preparedness. Leadership.</span></a>
       <nav aria-label="Main navigation">
-        {links.map(([label,href]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>)}
+        {links.slice(0,2).map(([label,href]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>)}
+        <details class="service-menu"><summary>Consulting &amp; Training</summary><div><a href="/consulting-training/">Overview: Choose Your Path</a><a href="/consulting/" aria-current={Astro.url.pathname === '/consulting/' ? 'page' : undefined}>Consulting Services</a><a href="/training/" aria-current={Astro.url.pathname === '/training/' ? 'page' : undefined}>Training &amp; Certification</a></div></details>
+        {links.slice(2).map(([label,href]) => <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>)}
       </nav>
     </header>
     <main id="main" class:list={['container', { article: !home }]} tabindex="-1">

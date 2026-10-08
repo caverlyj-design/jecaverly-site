@@ -33,7 +33,17 @@ Routine page content is Markdown in `src/pages/`. Edit the relevant file in GitH
 - Configure `www` redirection only after testing the apex domain and HTTPS.
 - Configure the unlisted SharePoint portal only after its destination is verified; leave it out of public navigation and sitemaps.
 
-No CMS, analytics, forms, or SharePoint redirect is configured yet. The site currently collects no visitor submissions. No paid services are required for its static foundation.
+No CMS, analytics, or SharePoint redirect is configured. Consultation and training inquiry forms store submissions in a private Cloudflare D1 database; no email notifications are configured. Static pages and inquiry handling use Cloudflare's free allowances.
+
+## Inquiry handling
+
+- `wrangler.jsonc` binds the private D1 database `jecaverly-inquiries` as `INQUIRIES_DB`. The schema in `migrations/0001_inquiries.sql` has been applied through the authenticated Cloudflare console. Deployment configuration is portable; migrating providers also requires exporting private inquiry data separately from source code.
+- Review submissions in Cloudflare → D1 → `jecaverly-inquiries` → Console: `SELECT * FROM inquiries ORDER BY created_at DESC LIMIT 50;`. The `type` distinguishes consulting and training; `payload` contains path-specific answers. There is no public read endpoint.
+- The forms accept only same-origin POST requests, use bounded server-side validation and parameterized SQL, a honeypot, and a five-inquiries-per-hour connection limit. Rate records use a daily IP-derived hash, not raw IP addresses. A shared network can hit the connection limit.
+- Confirmation is returned only after an atomic database write. No email is sent or implied. Cloudflare account access is needed to review inquiries.
+- Launch: confirm current American Red Cross instructor authorizations for each advertised course, certification requirements, course availability, and service scope. Add stronger bot protection if abuse occurs; confirm inquiry monitoring, response process, privacy notice, and retention schedule before public launch. Review and remove outdated inquiries regularly using the authenticated dashboard; no automatic inquiry deletion is configured.
+- Keep phone/email publication and alias setup on the existing go-live checklist. Preserve GoDaddy registration and Microsoft 365 DNS.
+- The preview archive contains only static assets. Functional forms require the deployed Pages Functions and D1 binding, or a local Workers emulator with that binding.
 
 ## Blog publishing
 

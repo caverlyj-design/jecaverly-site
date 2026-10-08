@@ -1,0 +1,12 @@
+{
+  "name": "jecaverly-site",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-08",
+  "d1_databases": [
+    {
+      "binding": "INQUIRIES_DB",
+      "database_name": "jecaverly-inquiries",
+      "database_id": "b0adbfe6-ab65-4703-b4b2-47d3bb063a50"
+    }
+  ]
+}
