@@ -20,7 +20,7 @@ Routine page content is Markdown in `src/pages/`. Edit the relevant file in GitH
 
 ## Launch checklist
 
-- Create the forwarding alias `contact@jecaverly.com` to John's private mailbox and test delivery and replies before launch. Publish only the alias, never the private destination. The alias can be replaced or disabled if spam becomes a problem.
+- Completed: `contact@jecaverly.com` exists in GoDaddy as an alias to John's private mailbox, confirmed from John's supplied screenshot. Still pending: test delivery and replies before launch. Publish only the alias, never the private destination. The alias can be replaced or disabled if spam becomes a problem.
 - At go-live, add public phone `253-302-7144` (`tel:+12533027144`) and email `contact@jecaverly.com` (`mailto:contact@jecaverly.com`) to the Contact Me page, then verify both links on mobile. Keep these details off the development preview until launch.
 
 - Verify biography, titles, dates, credentials, affiliations, consulting availability, and contact email with John.
@@ -45,6 +45,13 @@ No CMS, analytics, or SharePoint redirect is configured. Consultation and traini
 - Keep phone/email publication and alias setup on the existing go-live checklist. Preserve GoDaddy registration and Microsoft 365 DNS.
 - The preview archive contains only static assets. Functional forms require the deployed Pages Functions and D1 binding, or a local Workers emulator with that binding.
 
+## SharePoint destination setup
+
+A private Website Inquiries list has been created in John's Microsoft Lists. Private destination URLs and resource identifiers are kept outside this public repository. Fields are Title, InquiryType, and InquiryDetails (plain multiline text containing the complete request and reference).
+
+The website supports an optional direct Microsoft Graph destination through server/sharepoint.js. Activation requires a dedicated single-tenant Entra app, Lists.SelectedOperations.Selected application permission, admin consent, and an explicit write grant restricted to the one inquiry list. This role includes reading and modifying that list. Do not grant access to unrelated sites, files, or mail.
+
+Store SP_CLIENT_SECRET only as an encrypted Pages secret, never in source, browser code, logs, or chat. Configure SP_TENANT_ID, SP_CLIENT_ID, SP_SITE_ID, and SP_LIST_ID privately. Set INQUIRY_DESTINATION=sharepoint only after authorization, credential setup, and live tests. D1 remains responsible for rate-limit bookkeeping; inquiry contents then go to SharePoint. Missing configuration or failed Graph writes return an error without success confirmation or fallback storage. This mode is not active yet. Include credential renewal, retention, and inquiry monitoring in the launch checklist.
 ## Blog publishing
 
 The blog at `/blog/` lists Markdown posts automatically, newest first. John can supply a post in ChatGPT for publication, or create a file in `src/pages/blog/` through GitHub. Use a descriptive filename, such as `preparedness-starts-at-home.md`, and this frontmatter:

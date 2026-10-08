@@ -1,3 +1,4 @@
+import {saveToSharePoint,sharePointConfigured} from '../../server/sharepoint.js';
 const courses = new Set(['CPR & AED','First Aid','First Aid / CPR / AED','Basic Life Support (BLS)','First Aid for Severe Trauma (FAST)','Emergency preparedness','Workplace safety & emergency response','Other / help me choose']);
 const limits = {name:120,email:254,organization:160,phone:40,course:120,participants:5,certification:20,location:200,timeframe:200,needs:2000,scope:2000,details:3000};
 function reply(request, body, status) {
@@ -15,6 +16,8 @@ export async function onRequestPost({request,env}) {
   if (!/^(multipart\/form-data|application\/x-www-form-urlencoded)/i.test(request.headers.get('Content-Type')||'')) return fail('Unsupported submission format.',415);
   if (Number(request.headers.get('Content-Length')||0)>24000) return fail('Please shorten your inquiry.',413);
   if (!env.INQUIRIES_DB) return fail('The inquiry system is temporarily unavailable. Your request has not been saved. Please try again later.',503);
+  const useSharePoint=env.INQUIRY_DESTINATION==='sharepoint';
+  if(useSharePoint&&!sharePointConfigured(env)) return fail('The inquiry system is temporarily unavailable. Your request has not been saved. Please try again later.',503);
   let raw;
   try {
     const reader=request.body?.getReader();
@@ -45,13 +48,17 @@ export async function onRequestPost({request,env}) {
   const rateKey=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
   try {
     // D1 batch is atomic: rate increment and conditional storage succeed together.
-    const results=await env.INQUIRIES_DB.batch([
+    const statements=[
       env.INQUIRIES_DB.prepare('DELETE FROM inquiry_rate WHERE window_start < ?').bind(now-86400),
       env.INQUIRIES_DB.prepare('INSERT INTO inquiry_rate (rate_key,window_start,count) VALUES (?,?,1) ON CONFLICT(rate_key) DO UPDATE SET count=CASE WHEN window_start < ? THEN 1 ELSE count+1 END,window_start=CASE WHEN window_start < ? THEN excluded.window_start ELSE window_start END').bind(rateKey,now,now-3600,now-3600),
-      env.INQUIRIES_DB.prepare('INSERT INTO inquiries (id,created_at,type,name,email,organization,phone,location,timeframe,payload) SELECT ?,?,?,?,?,?,?,?,?,? WHERE (SELECT count FROM inquiry_rate WHERE rate_key=?) <= 5').bind(reference,new Date().toISOString(),type,data.name,data.email,data.organization,data.phone,data.location,data.timeframe,JSON.stringify(data),rateKey)
-    ]);
+    ];
+    if(!useSharePoint) statements.push(env.INQUIRIES_DB.prepare('INSERT INTO inquiries (id,created_at,type,name,email,organization,phone,location,timeframe,payload) SELECT ?,?,?,?,?,?,?,?,?,? WHERE (SELECT count FROM inquiry_rate WHERE rate_key=?) <= 5').bind(reference,new Date().toISOString(),type,data.name,data.email,data.organization,data.phone,data.location,data.timeframe,JSON.stringify(data),rateKey));
+    else statements.push(env.INQUIRIES_DB.prepare('SELECT count FROM inquiry_rate WHERE rate_key=?').bind(rateKey));
+    const results=await env.INQUIRIES_DB.batch(statements);
     if(results.some(r=>!r.success)) throw new Error('storage failure');
-    if(results[2].meta.changes!==1) return fail('Too many inquiries from this connection. Please wait an hour before trying again.',429);
+    if(useSharePoint&&!Number.isInteger(results[2].results?.[0]?.count)) throw new Error('rate lookup failed');
+    if(useSharePoint ? results[2].results?.[0]?.count>5 : results[2].meta.changes!==1) return fail('Too many inquiries from this connection. Please wait an hour before trying again.',429);
+    if(useSharePoint) await saveToSharePoint(env,{reference,type,data});
     return reply(request,{ok:true,reference,type},201);
   } catch {return fail('Your inquiry could not be saved. Please try again later.',503);}
 }
