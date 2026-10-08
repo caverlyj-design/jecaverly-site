@@ -2,6 +2,7 @@
   "name": "jecaverly-site",
   "pages_build_output_dir": "./dist",
   "compatibility_date": "2026-10-08",
+  "vars": { "INQUIRY_DESTINATION": "sharepoint" },
   "d1_databases": [
     {
       "binding": "INQUIRIES_DB",

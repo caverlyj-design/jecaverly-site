@@ -27,7 +27,7 @@ const training = type === 'training';
       <label class="full">Additional details <span>(optional)</span><textarea name="details" rows="4" maxlength="3000"></textarea></label>
     </div>
     <div class="honeypot" aria-hidden="true"><label>Leave this field blank<input name="website" tabindex="-1" autocomplete="off" /></label></div>
-    <p class="form-note">Your inquiry is stored privately with Cloudflare and used to respond to your request. Do not include patient information, confidential records, or sensitive security details. This form is not monitored for emergencies; call 911 for an emergency.</p>
+    <p class="form-note">This Cloudflare-hosted form stores your inquiry privately in Microsoft SharePoint so I can respond to your request. Do not include patient information, confidential records, or sensitive security details. This form is not monitored for emergencies; call 911 for an emergency.</p>
     <button class="button" type="submit">{training ? 'Send Training Inquiry' : 'Send Consultation Inquiry'}</button>
     <p class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
     <noscript><p>You can submit this form without JavaScript. A receipt appears only after your inquiry has been stored.</p></noscript>
